@@ -377,7 +377,7 @@ button[type='submit']{
     border: none;
 }
 
-/*styling to allow map to render*/
+/* styling to allow map to render */
 #map {
     min-height: 360px;
 

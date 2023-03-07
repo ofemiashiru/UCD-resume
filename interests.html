@@ -205,7 +205,24 @@
                     lng: -33.13476
                 }
             });
+
+            var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+            var locations = [ 
+                {lat: 40.785091, lng: -73.968285},
+                {lat: 89.785091, lng: -75.968285},
+                {lat: 42.785091, lng: -79.968285},
+            ]
+
+            var markers = locations.map((location, i) => {
+                return new google.maps.Marker({
+                    position: location,
+                    label: labels[i % labels.length]
+                })
+            } )
         }
+
+
+
     </script>
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAii-CTEYkWIBCrGgwHx12QxIFxg79XbnA&callback=initMap"></script>
