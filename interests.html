@@ -207,25 +207,97 @@
             });
 
             var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+
             var locations = [ 
                 {lat: 40.785091, lng: -73.968285},
-                {lat: 89.785091, lng: -75.968285},
-                {lat: 42.785091, lng: -79.968285},
+                {lat: 41.785091, lng: -75.968285},
+                {lat: 42.785091, lng: -79.968285}
             ]
 
-            var markers = locations.map((location, i) => {
+            var markers = locations.map(function(location, i){
                 return new google.maps.Marker({
                     position: location,
                     label: labels[i % labels.length]
                 })
-            } )
+            })
+
+            var markerCluster = new MarkerClusterer (map, markers,
+            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'})
         }
 
 
-
     </script>
+
+
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAii-CTEYkWIBCrGgwHx12QxIFxg79XbnA&callback=initMap"></script>
-    
+    <!-- <script>
+        // Initialize and add the map
+        function initMap() {
+            
+            // The location of Nigeria
+            const nigeria = { lat: 9.0778, lng: 8.6775 } 
+            // The map, centered at Nigeria
+            var map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 3,
+                center: nigeria
+            });
+
+            const infoWindow = new google.maps.InfoWindow({
+                content: "",
+                disableAutoPan: true,
+            });
+
+            // The marker, positioned at Nigeria
+            const marker = new google.maps.Marker({
+                position: nigeria,
+                map: map,
+            });
+
+            // Create an array of alphabetical characters used to label the markers.
+            const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+            const locations = [
+                { lat: -31.56391, lng: 147.154312 },
+                { lat: -33.718234, lng: 150.363181 },
+                { lat: -33.727111, lng: 150.371124 }
+            ]
+
+            var markers = locations.map(function(location, i){
+                const marker = new google.maps.Marker({
+                    position: location,
+                    label: labels[i % labels.length],
+                    map: map
+                })
+                marker.addListener("click", () => {
+                    infoWindow.setContent(label);
+                    infoWindow.open(map, marker);
+                });
+                return marker;
+            })
+
+            // const markers = locations.map((position, i) => {
+            //     const label = labels[i % labels.length];
+            //     const marker = new google.maps.Marker({
+            //         position,
+            //         label,
+            //     });
+
+            //     // markers can only be keyboard focusable when they have click listeners
+            //     // open info window when marker is clicked
+            //     // marker.addListener("click", () => {
+            //     //     infoWindow.setContent(label);
+            //     //     infoWindow.open(map, marker);
+            //     // });
+            //     return marker;
+            // });
+
+            // Add a marker clusterer to manage the markers.
+            new MarkerClusterer({ markers, map });
+        }
+        
+
+        // window.initMap = initMap;
+    </script> -->
 </body>
 </html>
