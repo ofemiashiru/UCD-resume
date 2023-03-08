@@ -16,7 +16,7 @@ const userInformationHTML = (user) =>{
 }
 
 
-const fetchGitHubInformation = function(event){
+const fetchGitHubInformation = function(){
 
     let username = document.querySelector('#gh-username').value
     let userDataDisplay = document.querySelector('#gh-user-data')
