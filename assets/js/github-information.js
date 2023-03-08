@@ -42,6 +42,9 @@ const repoInformationHTML = (repos) =>{
 
 
 const fetchGitHubInformation = function(){
+    document.querySelector('#gh-user-data').innerHTML = ""
+    document.querySelector('#gh-repo-data').innerHTML = ""
+
     //Value of the username we type
     let username = document.querySelector('#gh-username').value
     //Displays
@@ -112,3 +115,5 @@ const fetchGitHubInformation = function(){
 
 
 }
+
+$(document).ready(fetchGitHubInformation)
