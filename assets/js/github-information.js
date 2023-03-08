@@ -15,11 +15,38 @@ const userInformationHTML = (user) =>{
         </div>`;
 }
 
+const repoInformationHTML = (repos) =>{
+    if(repos.length === 0){
+        return `<div class="clearfix repo-list">No Repos!</div>`
+    }
+
+    let listItemsHTML = repos.map(repo => {
+        return `
+            <li>
+                <a href="${repo.html_url}" target="_blank">${repo.name}</a>
+            </li>
+        `
+    })
+
+    return `
+        <div class="clearfix repo-list">
+            <p>
+                <strong>Repo List:</strong>
+            </p>
+            <ul>
+                ${listItemsHTML.join('\n')}
+            </ul>
+        </div>
+    `
+}
+
 
 const fetchGitHubInformation = function(){
-
+    //Value of the username we type
     let username = document.querySelector('#gh-username').value
+    //Displays
     let userDataDisplay = document.querySelector('#gh-user-data')
+    let repoDataDisplay = document.querySelector('#gh-repo-data')
 
     if(!username){
         userDataDisplay.innerHTML = '<h2>Please Enter a GitHub username</h2>'
@@ -44,7 +71,7 @@ const fetchGitHubInformation = function(){
     })
     .then(data =>{
         let userData = data[0];
-        let userRepos = data[1];
+        let repoData = data[1];
 
         if(userData.message === 'Not Found'){
 
@@ -53,7 +80,7 @@ const fetchGitHubInformation = function(){
         } else {
 
             userDataDisplay.innerHTML = userInformationHTML(userData)
-            console.log(userRepos)
+            repoDataDisplay.innerHTML = repoInformationHTML(repoData)
         }
         
     })
