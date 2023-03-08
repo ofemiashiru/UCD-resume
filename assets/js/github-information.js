@@ -19,9 +19,10 @@ const userInformationHTML = (user) =>{
 const fetchGitHubInformation = function(event){
 
     let username = document.querySelector('#gh-username').value
+    let userData = document.querySelector('#gh-user-data')
 
     if(!username){
-        document.querySelector('#gh-user-data').innerHTML = '<h2>Please Enter a GitHub username</h2>'
+        userData.innerHTML = '<h2>Please Enter a GitHub username</h2>'
         return;  
     }
 
@@ -41,11 +42,11 @@ const fetchGitHubInformation = function(event){
     .then(data =>{
         if(data.message === 'Not Found'){
 
-            document.querySelector('#gh-user-data').innerHTML = `<h2>No info found for user ${username}</h2>`
+            userData.innerHTML = `<h2>No info found for user ${username}</h2>`
             
         } else {
 
-            document.querySelector('#gh-user-data').innerHTML = userInformationHTML(data)
+            userData.innerHTML = userInformationHTML(data)
         }
         
     })
