@@ -32,7 +32,7 @@ const fetchGitHubInformation = function(){
             <img src="assets/css/loader.gif" alt="loading...">
         </div>
     `
-    //Using the Promis.all to get multiple Apis
+    //Using the Promise.all to get multiple Apis
     Promise.all([
         fetch(`https://api.github.com/users/${username}`),
         fetch(`https://api.github.com/users/${username}/repos`)
