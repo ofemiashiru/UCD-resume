@@ -1,3 +1,21 @@
+const userInformationHTML = (user) =>{
+    return`
+        <h2>${user.name}
+            <span class="small-name">
+            (@<a href="${user.html_url}" target="_blank">${user.login}</a>)
+        </span>
+        </h2>
+        <div class="gh-content">
+            <div class="gh-avatar">
+                <a href="${user.html_url}" target="_blank">
+                    <img src="${user.avatar_url}" width="80" height="80" alt="${user.login}" />
+                </a>
+            </div>
+            <p>Followers: ${user.followers} - Following ${user.following} <br> Repos: ${user.public_repos}</p>
+        </div>`;
+}
+
+
 const fetchGitHubInformation = function(event){
 
     let username = document.querySelector('#gh-username').value
@@ -16,12 +34,24 @@ const fetchGitHubInformation = function(event){
 
     fetch(`https://api.github.com/users/${username}`)
     .then(res =>{
+
         return res.json()
+        
     })
     .then(data =>{
-        console.log(data)
+        if(data.message === 'Not Found'){
+
+            document.querySelector('#gh-user-data').innerHTML = `<h2>No info found for user ${username}</h2>`
+            
+        } else {
+
+            document.querySelector('#gh-user-data').innerHTML = userInformationHTML(data)
+        }
+        
     })
     .catch((error)=>{
-        console.log('error', error)
+        console.log('error', error.status)
     })
+
+
 }
