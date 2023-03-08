@@ -47,17 +47,14 @@ const fetchGitHubInformation = function(){
 
     //Value of the username we type
     let username = document.querySelector('#gh-username').value
-    //Displays
-    let userDataDisplay = document.querySelector('#gh-user-data')
-    let repoDataDisplay = document.querySelector('#gh-repo-data')
 
     if(!username){
-        userDataDisplay.innerHTML = '<h2>Please Enter a GitHub username</h2>'
+        document.querySelector('#gh-user-data').innerHTML = '<h2>Please Enter a GitHub username</h2>'
         return;  
     }
 
     //using a animated gif to create a loader
-    userDataDisplay.innerHTML = `
+    document.querySelector('#gh-user-data').innerHTML = `
         <div id="loader">
             <img src="assets/css/loader.gif" alt="loading...">
         </div>
@@ -67,28 +64,39 @@ const fetchGitHubInformation = function(){
         fetch(`https://api.github.com/users/${username}`),
         fetch(`https://api.github.com/users/${username}/repos`)
     ])
-    .then(responses =>{
+    .then(responses => {
+        if(responses[0].status === 403){
+            let resetTime = new Date(responses[0].headers.get('X-RateLimit-Reset') * 1000) //multiply by 1000 to get a valid date
+            document.querySelector('#gh-user-data').innerHTML = `
+                <h4>
+                    You have made too many requests, please try again at ${resetTime.toLocaleTimeString()} 
+                </h4>
+            `
+            throw new Error(`Too many requests, retry at ${resetTime.toLocaleTimeString()}`) //Use this to exit the promise chain
 
-        return Promise.all(responses.map(res => res.json()))
+        } else {
+            return Promise.all(responses.map(res => res.json()))
+        }
+        
         
     })
     .then(data =>{
         let userData = data[0];
         let repoData = data[1];
-
         if(userData.message === 'Not Found'){
 
-            userDataDisplay.innerHTML = `<h2>No info found for user ${username}</h2>`
+            document.querySelector('#gh-user-data').innerHTML = `<h2>No info found for user ${username}</h2>`
             
         } else {
 
-            userDataDisplay.innerHTML = userInformationHTML(userData)
-            repoDataDisplay.innerHTML = repoInformationHTML(repoData)
+            document.querySelector('#gh-user-data').innerHTML = userInformationHTML(userData)
+            document.querySelector('#gh-repo-data').innerHTML = repoInformationHTML(repoData)
         }
         
     })
     .catch((error)=>{
-        console.log('error', error)
+        // console.log(error) 
+        console.log(`${error.name}: ${error.message}`)
     })
 
     /** fetch for a single item */
