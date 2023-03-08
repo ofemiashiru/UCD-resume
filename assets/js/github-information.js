@@ -53,6 +53,7 @@ const fetchGitHubInformation = function(){
         } else {
 
             userDataDisplay.innerHTML = userInformationHTML(userData)
+            console.log(userRepos)
         }
         
     })
