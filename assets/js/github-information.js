@@ -65,7 +65,12 @@ const fetchGitHubInformation = function(){
         fetch(`https://api.github.com/users/${username}/repos`)
     ])
     .then(responses => {
-        if(responses[0].status === 403){
+        if(responses[0].ok){ // tap into the response property ok which comes back as true or false
+
+            return Promise.all(responses.map(res => res.json()))
+
+        } else if(responses[0].status === 403){
+
             let resetTime = new Date(responses[0].headers.get('X-RateLimit-Reset') * 1000) //multiply by 1000 to get a valid date
             document.querySelector('#gh-user-data').innerHTML = `
                 <h4>
@@ -74,8 +79,9 @@ const fetchGitHubInformation = function(){
             `
             throw new Error(`Too many requests, retry at ${resetTime.toLocaleTimeString()}`) //Use this to exit the promise chain
 
-        } else {
-            return Promise.all(responses.map(res => res.json()))
+        } else if(responses[0].status === 404) { 
+
+            throw new Error('User not found')
         }
         
         
